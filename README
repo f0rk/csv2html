@@ -1,0 +1,56 @@
+Take one or more CSV files and transform them into an HTML table.
+
+Requires python.
+
+Examples:
+
+~$ cat /tmp/a.csv
+foo,bar,baz
+1,2,3
+4,5,6
+~$ cat /tmp/b.csv
+foo,bar,baz
+a,b,c
+e,f,g
+~$ csv2html /tmp/a.csv /tmp/b.csv
+<table>
+    <thead>
+        <tr>
+            <td>foo</td><td>bar</td><td>baz</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td><td>2</td><td>3</td>
+        </tr>
+        <tr>
+            <td>4</td><td>5</td><td>6</td>
+        </tr>
+        <tr>
+            <td>a</td><td>b</td><td>c</td>
+        </tr>
+        <tr>
+            <td>e</td><td>f</td><td>g</td>
+        </tr>
+    </tbody>
+</table>
+
+You can also read from stdin using - or by specifying no files at all:
+
+~$ cat /tmp/a.csv | csv2html
+<table>
+    <thead>
+        <tr>
+            <td>foo</td><td>bar</td><td>baz</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td><td>2</td><td>3</td>
+        </tr>
+        <tr>
+            <td>4</td><td>5</td><td>6</td>
+        </tr>
+    </tbody>
+</table>
+

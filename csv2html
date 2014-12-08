@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+
+import sys
+import csv
+import cgi
+import argparse
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("files", help="path to CSVs, default stdin", nargs="*")
+
+args = parser.parse_args()
+
+files = args.files
+if not files:
+    files = ["-"]
+
+print("<table>")
+print("    <thead>")
+
+print_headers = True
+
+def wrap(val):
+    val = cgi.escape(val)
+    return "<td>{}</td>".format(val)
+
+for file in files:
+    if file == "-":
+        infp = sys.stdin
+    else:
+        infp = open(file, "r")
+
+    reader = csv.DictReader(infp)
+
+    for row in reader:
+        if print_headers:
+
+            cells = [wrap(h) for h in reader.fieldnames]
+
+            print("        <tr>")
+            print("            " + "".join(cells))
+            print("        </tr>")
+            print("    </thead>")
+            print("    <tbody>")
+
+            print_headers = False
+
+        cells = [wrap(row[h]) for h in reader.fieldnames]
+
+        print("        <tr>")
+        print("            " + "".join(cells))
+        print("        </tr>")
+
+    if file != "-":
+        infp.close()
+
+if print_headers:
+    print("    </thead>")
+    print("    <tbody>")
+
+print("    </tbody>")
+print("</table>")
+
